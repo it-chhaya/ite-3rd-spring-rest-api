@@ -2,7 +2,9 @@ package co.istad.chhaya.restapi.controller;
 
 import co.istad.chhaya.restapi.dto.CoffeeResponse;
 import co.istad.chhaya.restapi.dto.CreateCoffeeRequest;
+import co.istad.chhaya.restapi.dto.UpdateCoffeeRequest;
 import co.istad.chhaya.restapi.service.CoffeeService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,21 @@ public class CoffeeController {
     }
 
 
+
+    @PutMapping("/{id}")
+    public CoffeeResponse updateCoffeeById(
+            @PathVariable Integer id,
+            @Valid @RequestBody UpdateCoffeeRequest updateCoffeeRequest
+            ) {
+        return coffeeService.updateCoffeeById(id, updateCoffeeRequest);
+    }
+
+
+
     @ResponseStatus(HttpStatus.CREATED) // customize response status code here
     @PostMapping
     public CoffeeResponse createCoffee(
-            @RequestBody CreateCoffeeRequest createCoffeeRequest
+            @Valid @RequestBody CreateCoffeeRequest createCoffeeRequest
     ) {
         return coffeeService.createCoffee(createCoffeeRequest);
     }

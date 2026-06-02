@@ -7,8 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
-public record CreateCoffeeRequest(
-
+public record UpdateCoffeeRequest(
         @NotBlank(message = "Name is required")
         @Size(min = 3, max = 255)
         String name,

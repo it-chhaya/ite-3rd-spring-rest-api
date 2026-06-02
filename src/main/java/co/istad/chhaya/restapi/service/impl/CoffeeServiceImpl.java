@@ -3,6 +3,7 @@ package co.istad.chhaya.restapi.service.impl;
 import co.istad.chhaya.restapi.domain.Coffee;
 import co.istad.chhaya.restapi.dto.CoffeeResponse;
 import co.istad.chhaya.restapi.dto.CreateCoffeeRequest;
+import co.istad.chhaya.restapi.dto.UpdateCoffeeRequest;
 import co.istad.chhaya.restapi.repository.CoffeeRepository;
 import co.istad.chhaya.restapi.service.CoffeeService;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,25 @@ public class CoffeeServiceImpl implements CoffeeService {
 
     public CoffeeServiceImpl(CoffeeRepository coffeeRepository) {
         this.coffeeRepository = coffeeRepository;
+    }
+
+
+    @Override
+    public CoffeeResponse updateCoffeeById(Integer id, UpdateCoffeeRequest updateCoffeeRequest) {
+        // Validate coffee ID exist or not
+        return coffeeRepository.getCoffees()
+                .stream()
+                .filter(coffee -> coffee.getId().equals(id))
+                .findFirst()
+                .map(oldCoffee -> {
+                    oldCoffee.setName(updateCoffeeRequest.name());
+                    oldCoffee.setDescription(updateCoffeeRequest.description());
+                    oldCoffee.setPrice(updateCoffeeRequest.price());
+
+                    return oldCoffee;
+                })
+                .map(newCoffee -> new CoffeeResponse(newCoffee.getId(), newCoffee.getName(), newCoffee.getDescription()))
+                .orElseThrow(() -> new RuntimeException("coffee not found"));
     }
 
 

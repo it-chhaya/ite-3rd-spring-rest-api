@@ -3,11 +3,19 @@ package co.istad.chhaya.restapi.service;
 import co.istad.chhaya.restapi.domain.Coffee;
 import co.istad.chhaya.restapi.dto.CoffeeResponse;
 import co.istad.chhaya.restapi.dto.CreateCoffeeRequest;
+import co.istad.chhaya.restapi.dto.UpdateCoffeeRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface CoffeeService {
+
+
+    // 1. My logic is update coffee information by coffee id
+    // 2. Expected result is CoffeeResponse
+    // 3. Parameter is UpdateCoffeeRequest
+    CoffeeResponse updateCoffeeById(Integer id, UpdateCoffeeRequest updateCoffeeRequest);
+
 
     // 1. Expected result (return type: void, object, collection, int, ...)
     // 2. Your logic: add single coffee
