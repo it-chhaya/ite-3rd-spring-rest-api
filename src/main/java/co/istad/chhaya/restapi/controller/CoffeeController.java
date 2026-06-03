@@ -24,6 +24,12 @@ public class CoffeeController {
     }
 
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteCoffeeById(@PathVariable Long id) {
+
+    }
+
 
     @PutMapping("/{id}")
     public CoffeeResponse updateCoffeeById(

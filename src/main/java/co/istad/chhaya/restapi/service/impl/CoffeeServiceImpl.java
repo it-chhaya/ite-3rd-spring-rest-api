@@ -6,7 +6,9 @@ import co.istad.chhaya.restapi.dto.CreateCoffeeRequest;
 import co.istad.chhaya.restapi.dto.UpdateCoffeeRequest;
 import co.istad.chhaya.restapi.repository.CoffeeRepository;
 import co.istad.chhaya.restapi.service.CoffeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,11 +35,11 @@ public class CoffeeServiceImpl implements CoffeeService {
                     oldCoffee.setName(updateCoffeeRequest.name());
                     oldCoffee.setDescription(updateCoffeeRequest.description());
                     oldCoffee.setPrice(updateCoffeeRequest.price());
-
                     return oldCoffee;
                 })
                 .map(newCoffee -> new CoffeeResponse(newCoffee.getId(), newCoffee.getName(), newCoffee.getDescription()))
-                .orElseThrow(() -> new RuntimeException("coffee not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("Coffee ID = %d doesn't exist in database", id)));
     }
 
 

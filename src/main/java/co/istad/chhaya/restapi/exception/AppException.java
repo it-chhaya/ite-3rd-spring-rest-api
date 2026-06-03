@@ -7,15 +7,32 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
 public class AppException {
+
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<?> handleServiceException(
+            ResponseStatusException e
+    ) {
+        ErrorResponse<?> errorResponse = ErrorResponse.builder()
+                .status(false)
+                .code(e.getStatusCode().value())
+                .message("Service exception errored")
+                .errors(e.getReason())
+                .build();
+
+        return ResponseEntity.status(e.getStatusCode())
+                .body(errorResponse);
+    }
+
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
